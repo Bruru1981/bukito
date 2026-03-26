@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# brand assets (290MB binary files — use Supabase or Bruru1981/bukito-brand-assets repo)
+/brand-assets/
+
+# video sub-project
+/video/node_modules/
+/video/out/
+/video/.DS_Store
+
+# postiz
+/postiz/node_modules/

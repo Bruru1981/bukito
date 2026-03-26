@@ -1,0 +1,21 @@
+{
+  "name": "bukito-postiz",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "schedule": "npx tsx scripts/schedule-post.ts",
+    "up": "docker compose up -d",
+    "down": "docker compose down",
+    "logs": "docker compose logs -f postiz",
+    "restart": "docker compose down && docker compose up -d"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  },
+  "dependencies": {
+    "form-data": "^4.0.0",
+    "node-fetch": "^3.3.0"
+  }
+}

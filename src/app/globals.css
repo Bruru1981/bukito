@@ -1,26 +1,163 @@
 @import "tailwindcss";
 
+/* ─── Typography ─── */
+@font-face {
+  font-family: "Kisrre";
+  src: url("/fonts/Kisrre.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Kisrre Rounded";
+  src: url("/fonts/Kisrre-Rounded.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Theme tokens ─── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8f5ea;
+  --foreground: #6d0000;
+  --green: #008134;
+  --orange: #e67e32;
+  --blue: #a8c8e8;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-sand: #f8f5ea;
+  --color-sunrust: #6d0000;
+  --color-jungle: #008134;
+  --color-orange-beach: #e67e32;
+  --color-wavy-blue: #a8c8e8;
+  --color-black-magic: #000000;
+  --font-kisrre: "Kisrre", sans-serif;
+  --font-kisrre-rounded: "Kisrre Rounded", sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* ─── Base ─── */
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Kisrre", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+}
+
+/* ─── Screen reader only ─── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ─── Selection ─── */
+::selection {
+  background: #6d0000;
+  color: #f8f5ea;
+}
+
+/* ─── Lenis smooth scroll ─── */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ─── Grain overlay — the analog soul ─── */
+@keyframes grainShift {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  20% { transform: translate(-15%, 5%); }
+  30% { transform: translate(7%, -25%); }
+  40% { transform: translate(-5%, 25%); }
+  50% { transform: translate(-15%, 10%); }
+  60% { transform: translate(15%, 0%); }
+  70% { transform: translate(0%, 15%); }
+  80% { transform: translate(3%, 25%); }
+  90% { transform: translate(-10%, 10%); }
+}
+
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  pointer-events: none;
+  z-index: 9999;
+  animation: grainShift 8s steps(10) infinite;
+}
+
+/* ─── Noise (per-section) ─── */
+.noise::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── Ken Burns for mosaic images ─── */
+@keyframes kenBurns {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.08); }
+}
+
+.hover-ken-burns {
+  overflow: hidden;
+}
+
+.hover-ken-burns img {
+  transition: transform 6s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.hover-ken-burns:hover img {
+  transform: scale(1.08);
+}
+
+/* ─── Scroll line indicator ─── */
+@keyframes growLine {
+  0% { transform: scaleY(0); }
+  100% { transform: scaleY(1); }
+}
+
+.scroll-line {
+  transform-origin: top;
+  animation: growLine 2s ease-out forwards;
+  animation-delay: 1.5s;
+  transform: scaleY(0);
+}
+
+/* ─── Reveal clip animation ─── */
+@keyframes revealUp {
+  from { clip-path: inset(100% 0 0 0); }
+  to { clip-path: inset(0 0 0 0); }
 }

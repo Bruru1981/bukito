@@ -1,0 +1,24 @@
+# === Postiz Secrets for Bukito ===
+# Copy this file to .env and fill in the values:
+#   cp env-template.txt .env
+#
+# Generate a strong random string for JWT:
+#   openssl rand -base64 48
+
+JWT_SECRET=CHANGE_ME_generate_a_long_random_string_here
+
+# === Instagram (via Facebook/Meta Developer App) ===
+# 1. Go to https://developers.facebook.com
+# 2. Create an app with Instagram Graph API
+# 3. Add Instagram Basic Display and Instagram Graph API products
+FACEBOOK_APP_ID=
+FACEBOOK_APP_SECRET=
+
+# === TikTok ===
+# 1. Go to https://developers.tiktok.com
+# 2. Create an app with Content Posting API access
+TIKTOK_CLIENT_ID=
+TIKTOK_CLIENT_SECRET=
+
+# === Optional: OpenAI for AI caption suggestions ===
+OPENAI_API_KEY=

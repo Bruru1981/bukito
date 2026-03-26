@@ -1,0 +1,119 @@
+services:
+  postiz:
+    image: ghcr.io/gitroomhq/postiz-app:latest
+    container_name: postiz
+    restart: unless-stopped
+    depends_on:
+      postiz-postgres:
+        condition: service_healthy
+      postiz-redis:
+        condition: service_started
+      temporal:
+        condition: service_started
+    ports:
+      - "4007:4007"       # Web UI
+      - "3000:3000"       # Backend API
+    environment:
+      # === Core URLs
+      MAIN_URL: "http://localhost:4007"
+      FRONTEND_URL: "http://localhost:4007"
+      NEXT_PUBLIC_BACKEND_URL: "http://localhost:3000"
+      BACKEND_INTERNAL_URL: "http://localhost:3000"
+
+      # === Database
+      DATABASE_URL: "postgresql://postiz:postiz_bukito_2026@postiz-postgres:5432/postiz"
+
+      # === Redis
+      REDIS_URL: "redis://postiz-redis:6379"
+
+      # === Temporal (workflow orchestration)
+      TEMPORAL_ADDRESS: "temporal:7233"
+
+      # === Auth / Security
+      JWT_SECRET: "${JWT_SECRET}"
+
+      # === General
+      IS_GENERAL: "true"
+      DISABLE_REGISTRATION: "true"    # Single-user, no public signup
+      RUN_CRON: "true"
+
+      # === Storage (local uploads)
+      STORAGE_PROVIDER: "local"
+      UPLOAD_DIRECTORY: "/uploads"
+      NEXT_PUBLIC_UPLOAD_DIRECTORY: "/uploads"
+
+      # === API rate limit
+      API_LIMIT: "30"
+
+      # === Social Media Providers (Instagram + TikTok for Bukito)
+      FACEBOOK_APP_ID: "${FACEBOOK_APP_ID}"
+      FACEBOOK_APP_SECRET: "${FACEBOOK_APP_SECRET}"
+      TIKTOK_CLIENT_ID: "${TIKTOK_CLIENT_ID}"
+      TIKTOK_CLIENT_SECRET: "${TIKTOK_CLIENT_SECRET}"
+
+      # === Optional: AI features
+      OPENAI_API_KEY: "${OPENAI_API_KEY:-}"
+    volumes:
+      - postiz-config:/config
+      - postiz-uploads:/uploads
+    networks:
+      - postiz-network
+
+  postiz-postgres:
+    image: postgres:17-alpine
+    container_name: postiz-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postiz
+      POSTGRES_PASSWORD: postiz_bukito_2026
+      POSTGRES_DB: postiz
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postiz"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - postiz-network
+
+  postiz-redis:
+    image: redis:7-alpine
+    container_name: postiz-redis
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - postiz-network
+
+  temporal:
+    image: temporalio/auto-setup:latest
+    container_name: postiz-temporal
+    restart: unless-stopped
+    depends_on:
+      postiz-postgres:
+        condition: service_healthy
+    environment:
+      DB: "postgresql"
+      DB_PORT: "5432"
+      POSTGRES_USER: postiz
+      POSTGRES_PWD: postiz_bukito_2026
+      POSTGRES_SEEDS: postiz-postgres
+      DYNAMIC_CONFIG_FILE_PATH: "config/dynamicconfig/development-sql.yaml"
+    networks:
+      - postiz-network
+
+volumes:
+  postgres-data:
+  redis-data:
+  postiz-config:
+  postiz-uploads:
+
+networks:
+  postiz-network:
+    driver: bridge
