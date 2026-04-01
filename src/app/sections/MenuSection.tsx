@@ -171,7 +171,7 @@ export function MenuSection() {
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 lg:gap-16 mb-12 sm:mb-16">
           <div>
             <FadeIn>
-              <p className="text-[11px] sm:text-xs tracking-[0.25em] opacity-20 mb-4">
+              <p className="text-[11px] sm:text-lg tracking-[0.25em] opacity-80 mb-4">
                 All Produced From Scratch In House
               </p>
             </FadeIn>
@@ -220,7 +220,7 @@ export function MenuSection() {
             href="https://wa.me/6282234606010"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 text-xs tracking-[0.15em] opacity-25 hover:opacity-60 transition-opacity"
+            className="inline-flex items-center gap-3 text-lg tracking-[0.15em] opacity-70 hover:opacity-60 transition-opacity"
           >
             Take-Out + Delivery &bull; WA +6282234606010
           </a>

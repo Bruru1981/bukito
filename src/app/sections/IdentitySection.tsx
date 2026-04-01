@@ -31,9 +31,9 @@ export function IdentitySection() {
 
           <FadeIn delay={0.1}>
             <h2 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl tracking-[-0.05em] leading-[0.88] mb-6">
-              Restaurant
+              Coffee bar
               <br />
-              <span className="text-black-magic">&</span> Coffee Bar
+              <span className="text-black-magic">&</span> Restaurant
             </h2>
           </FadeIn>
 
@@ -46,15 +46,13 @@ export function IdentitySection() {
               className="text-xs sm:text-sm tracking-[-0.01em] leading-relaxed opacity-45 max-w-[36ch]"
               style={{ fontFamily: "var(--font-kisrre-rounded)" }}
             >
-              Belgian Roots, Local Soul. We Cook
-              What The Island Gives Us And Brew
-              What Keeps The Surfers Coming Back.
+              Come hang, chill, work or wash off the salt. Connect with other travellers or just let our staff take care of you. We've got you covered with the most delicious food and drinks. Bukito is your living room in Kertasari.
             </p>
           </FadeIn>
 
           <FadeIn delay={0.45}>
-            <p className="text-xs tracking-[0.15em] opacity-20 mt-10">
-              Open Daily &bull; Near Lakey Peak
+            <p className="text-xs tracking-[0.15em] opacity-60 mt-10">
+              Open Daily 7:30 am &bull; Closed Tuesday
             </p>
           </FadeIn>
         </div>

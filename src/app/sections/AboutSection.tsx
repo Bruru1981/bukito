@@ -65,10 +65,8 @@ export function AboutSection() {
               className="text-xs sm:text-sm tracking-[-0.01em] leading-relaxed opacity-50 max-w-[38ch]"
               style={{ fontFamily: "var(--font-kisrre-rounded)" }}
             >
-              Bukito Is A Restaurant And Coffee Spot In Kertasari,
-              Sumbawa Barat. Belgian Roots, Local Soul.
-              We Cook What The Island Gives Us And Brew
-              What Keeps The Surfers Coming Back.
+              Hidden in the palmgroves of Kertasari, Sumbawa Barat. Coffee & Restaurant. Come hang, chill, work, or wash off the salt. Connect with other travellers or just let our staff take care of you. We've got you covered with the most delicious food and drinks. Bukito is your living room in Kertasari. Open daily from 7:30am · Closed Tuesday
+          
             </p>
           </FadeIn>
         </div>

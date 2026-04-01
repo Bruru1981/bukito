@@ -39,7 +39,7 @@ function Step({ num, place, label, detail, index }: {
 
       {/* Content */}
       <div className="relative z-10 flex items-baseline gap-4 sm:gap-8">
-        <span className="text-xs tracking-[0.2em] text-sand/40 shrink-0 w-16 sm:w-24">
+        <span className="text-lg tracking-[0.2em] text-sand/70 shrink-0 w-16 sm:w-24">
           {label}
         </span>
         <span className="text-3xl sm:text-5xl lg:text-7xl tracking-[-0.04em] text-sand flex-1">
@@ -61,7 +61,7 @@ export function JourneySection() {
       <div className="relative z-10 max-w-5xl mx-auto">
         {/* Header */}
         <FadeIn className="mb-20 sm:mb-28">
-          <p className="text-xs tracking-[0.25em] text-sand/25 mb-5">
+          <p className="text-lg tracking-[0.25em] text-sand/80 mb-5">
             How To Find Us
           </p>
           <h2 className="text-5xl sm:text-7xl lg:text-8xl tracking-[-0.05em] leading-[0.85]">
@@ -72,11 +72,7 @@ export function JourneySection() {
         </FadeIn>
 
         {/* "Near Lakey Peak" — standalone typographic moment */}
-        <FadeIn delay={0.15} className="mb-16 sm:mb-20">
-          <p className="text-sm sm:text-base tracking-[0.1em] text-sand/35">
-            Near Lakey Peak, Sumbawa Barat
-          </p>
-        </FadeIn>
+        
 
         {/* Steps */}
         <div>
