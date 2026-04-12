@@ -8,44 +8,35 @@ import { FadeIn } from "../components/FadeIn";
 const playlists = [
   {
     id: "morning",
-    title: "Morning Coffee",
-    desc: "Slow Start, First Light, Espresso Machine Humming",
+    title: "Bukito morning",
+    desc: "Slow start, soft light, coffee machine humming",
     trackCount: 42,
     duration: "2h 48m",
     mood: "Ambient / Acoustic / Jazz",
-    spotifyUrl: "https://open.spotify.com/playlist/bukito-morning",
+    spotifyUrl: "https://open.spotify.com/playlist/3N2LttneuZiP5eGCX8YM9c",
     color: "#6d0000",
   },
   {
     id: "afternoon",
-    title: "Afternoon Session",
-    desc: "Post-Surf, Cold Brew, Hammock Weather",
+    title: "Bukito afternoon",
+    desc: "Post surf, cold brew, island breeze",
     trackCount: 38,
     duration: "2h 22m",
     mood: "Indie / Bossa / Chill",
-    spotifyUrl: "https://open.spotify.com/playlist/bukito-afternoon",
+    spotifyUrl: "https://open.spotify.com/playlist/6pVSHv2WyaQsBh6pqkYH0g",
     color: "#008134",
   },
   {
     id: "sunset",
-    title: "Sunset Hour",
-    desc: "Golden Light On The Water, Bintang In Hand",
+    title: "Bukito sunset",
+    desc: "Golden light aperitivo 'til way after sundown",
     trackCount: 35,
     duration: "2h 15m",
     mood: "Deep House / Downtempo / Balearic",
-    spotifyUrl: "https://open.spotify.com/playlist/bukito-sunset",
+    spotifyUrl: "https://open.spotify.com/playlist/4FTDiiWa8hlxpjNUhb7cGB",
     color: "#6d0000",
   },
-  {
-    id: "dinner",
-    title: "Dinner Service",
-    desc: "Kitchen Heat, Low Conversation, Candle Flicker",
-    trackCount: 44,
-    duration: "3h 05m",
-    mood: "Soul / Neo-Jazz / Electronic",
-    spotifyUrl: "https://open.spotify.com/playlist/bukito-dinner",
-    color: "#a8c8e8",
-  },
+
 ];
 
 function PlaylistCard({
@@ -91,7 +82,7 @@ function PlaylistCard({
               {title}
             </h3>
             <p
-              className="text-xs tracking-[-0.01em] opacity-25 mt-1"
+              className="text-sm tracking-[-0.01em] opacity-60 mt-1"
               style={{ fontFamily: "var(--font-kisrre-rounded)" }}
             >
               {desc}
@@ -134,14 +125,14 @@ export function PlaylistSection() {
       <div className="relative z-10 max-w-5xl">
         {/* Header */}
         <FadeIn className="mb-14 sm:mb-20">
-          <p className="text-xs tracking-[0.25em] text-sand/25 mb-4">
+          <p className="text-xs tracking-[0.25em] text-sand/80 mb-4">
             Curated By Alice
           </p>
           <h2 className="text-5xl sm:text-7xl lg:text-8xl tracking-[-0.05em] leading-[0.85]">
             Listen
           </h2>
           <p
-            className="text-xs sm:text-sm tracking-[-0.01em] opacity-25 mt-5 max-w-[40ch]"
+            className="text-xs sm:text-sm tracking-[-0.01em] opacity-60 mt-5 max-w-[40ch]"
             style={{ fontFamily: "var(--font-kisrre-rounded)" }}
           >
             The Sounds We Play At Bukito. From First
