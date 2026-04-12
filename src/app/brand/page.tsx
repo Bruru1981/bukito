@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { WorkspaceManager, ColorEditor, MediaUploader } from "./BrandEditor";
 
 const STORAGE =
   "https://glmgwaywptqlzudoiwot.supabase.co/storage/v1/object/public/media/Bukito%20brand%20book";
@@ -95,7 +96,7 @@ function ColorSwatch({ name, hex, role }: { name: string; hex: string; role: str
 
 export default function BrandDashboard() {
   return (
-    <div className="min-h-screen bg-sand text-sunrust">
+    <div className="min-h-screen bg-sand text-sunrust" data-page="brand">
       {/* Header */}
       <header className="px-8 sm:px-16 pt-16 pb-12 border-b border-sunrust/10">
         <p className="text-xs tracking-[0.2em] opacity-30 mb-3">Brand Dashboard</p>
@@ -114,23 +115,20 @@ export default function BrandDashboard() {
       </header>
 
       <main className="px-8 sm:px-16 py-16 max-w-6xl">
-        {/* Colors */}
+        {/* Paper Workspaces */}
+        <Section title="Paper Workspaces">
+          <WorkspaceManager />
+        </Section>
+
+        {/* Colors — interactive */}
         <Section title="Color Palette">
           <div className="mb-8">
             <p className="text-xs tracking-[0.15em] opacity-30 mb-4">Primary</p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {colors.primary.map((c) => (
-                <ColorSwatch key={c.hex} {...c} />
-              ))}
-            </div>
+            <ColorEditor group="primary" initial={colors.primary} />
           </div>
           <div>
             <p className="text-xs tracking-[0.15em] opacity-30 mb-4">Secondary</p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-              {colors.secondary.map((c) => (
-                <ColorSwatch key={c.hex} {...c} />
-              ))}
-            </div>
+            <ColorEditor group="secondary" initial={colors.secondary} />
           </div>
         </Section>
 
@@ -243,6 +241,7 @@ export default function BrandDashboard() {
                     alt={`Bukito ${name} icon`}
                     width={48}
                     height={48}
+                    unoptimized
                     className="object-contain max-h-12"
                   />
                 </div>
@@ -252,11 +251,16 @@ export default function BrandDashboard() {
           </div>
         </Section>
 
-        {/* Photos */}
-        <Section title="Photo Library">
+        {/* Media Library */}
+        <Section title="Media Library">
           <p className="text-xs opacity-25 mb-6" style={{ fontFamily: "var(--font-kisrre-rounded)" }}>
-            Supabase Storage — {photos.length} curated photos. Source PNGs on Google Drive.
+            Supabase Storage — {photos.length} photos. Drop photos or videos below to upload.
           </p>
+
+          {/* Upload dropzone */}
+          <div className="mb-8">
+            <MediaUploader />
+          </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {photos.map((photo) => (
               <div key={photo} className="relative aspect-square overflow-hidden hover-ken-burns">

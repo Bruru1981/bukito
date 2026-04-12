@@ -5,6 +5,9 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { FadeIn } from "../components/FadeIn";
 
+const BUKITO_MEDIA =
+  "https://glmgwaywptqlzudoiwot.supabase.co/storage/v1/object/public/media/Bukito%20brand%20book";
+
 export function IdentitySection() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -46,10 +49,21 @@ export function IdentitySection() {
               className="text-xs sm:text-sm tracking-[-0.01em] leading-relaxed opacity-45 max-w-[36ch]"
               style={{ fontFamily: "var(--font-kisrre-rounded)" }}
             >
-              Belgian Roots, Local Soul. We Cook
-              What The Island Gives Us And Brew
-              What Keeps The Surfers Coming Back.
+              Belgian Roots, Local Soul. We Cook What The Island Gives Us And
+              Brew What Keeps The Surfers Coming Back.
             </p>
+          </FadeIn>
+
+          <FadeIn delay={0.4}>
+            <figure className="mt-10 relative w-full max-w-lg aspect-[4/3] overflow-hidden rounded-sm border border-sunrust/10 shadow-sm">
+              <Image
+                src={`${BUKITO_MEDIA}/photos/bukito-exterior.webp`}
+                alt="Bukito restaurant and coffee bar building in Kertasari, Sumbawa Barat"
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 36vw"
+              />
+            </figure>
           </FadeIn>
 
           <FadeIn delay={0.45}>

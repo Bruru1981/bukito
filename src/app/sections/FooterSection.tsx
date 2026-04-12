@@ -1,37 +1,78 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { FadeIn } from "../components/FadeIn";
+import {
+  BUKITO_STAMP_DISTORTED_SUPABASE,
+  BUKITO_STAMP_SUPABASE,
+} from "../../lib/brand-media";
 
-const STORAGE =
-  "https://glmgwaywptqlzudoiwot.supabase.co/storage/v1/object/public/media/Bukito%20brand%20book";
+const STAMP_LOCAL = "/BUKITO_StampDistorted.png";
 
 export function FooterSection() {
-  return (
-    <footer className="relative bg-black-magic text-sand overflow-hidden py-32 sm:py-44 px-8 sm:px-16">
-      {/* Pattern texture background */}
-      <div
-        className="absolute inset-0 opacity-[0.02] pointer-events-none"
-        style={{ backgroundImage: "url(/BUKITO_Pattern.png)", backgroundSize: "300px" }}
-      />
-      <div className="noise absolute inset-0 pointer-events-none" />
+  const [stampSrc, setStampSrc] = useState(BUKITO_STAMP_SUPABASE);
 
-      <div className="relative z-10 max-w-3xl mx-auto text-center">
-        {/* Snake logo — large, the hero of the footer */}
+  function onStampError() {
+    if (stampSrc === BUKITO_STAMP_SUPABASE) {
+      setStampSrc(BUKITO_STAMP_DISTORTED_SUPABASE);
+      return;
+    }
+    if (stampSrc === BUKITO_STAMP_DISTORTED_SUPABASE) {
+      setStampSrc(STAMP_LOCAL);
+    }
+  }
+
+  return (
+    <footer className="relative overflow-hidden bg-black-magic px-8 py-32 text-sand sm:px-16 sm:py-44">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: "url(/BUKITO_Pattern.png)",
+          backgroundSize: "300px",
+        }}
+      />
+      <div className="pointer-events-none absolute inset-0 noise" />
+
+      <div className="relative z-10 mx-auto max-w-3xl text-center">
         <FadeIn>
-          <Image
-            src={`${STORAGE}/logos/BUKITO_LogoSnakePalm.png`}
-            alt="Bukito snake palm logo"
-            width={200}
-            height={200}
-            className="mx-auto invert opacity-40"
-          />
+          <a
+            href={BUKITO_STAMP_SUPABASE}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group inline-flex focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sand/40 focus-visible:ring-offset-2 focus-visible:ring-offset-black-magic"
+            style={{
+              /* Black artwork → sand/white on dark footer (works even when Next wraps the img). */
+              filter: "brightness(0) invert(1) brightness(1.12)",
+            }}
+          >
+            <Image
+              src={stampSrc}
+              alt="Bukito stamp — Kertasari, Sumbawa Barat"
+              width={240}
+              height={240}
+              unoptimized
+              onError={onStampError}
+              className="block h-auto w-[min(200px,48vw)] opacity-95 transition-opacity group-hover:opacity-100"
+            />
+          </a>
+        </FadeIn>
+        <FadeIn delay={0.06}>
+          <p className="mt-4 text-[11px] tracking-[0.2em] text-sand/35">
+            <a
+              href={BUKITO_STAMP_SUPABASE}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline decoration-sand/20 underline-offset-4 transition-colors hover:text-sand/70 hover:decoration-sand/40"
+            >
+              Brand book (Supabase)
+            </a>
+          </p>
         </FadeIn>
 
-        {/* Address — single elegant block */}
-        <FadeIn delay={0.2}>
-          <address className="mt-14 sm:mt-20 not-italic">
-            <p className="text-xs sm:text-sm tracking-[-0.02em] opacity-40 leading-relaxed">
+        <FadeIn delay={0.15}>
+          <address className="mt-14 not-italic sm:mt-16">
+            <p className="text-xs leading-relaxed tracking-[-0.02em] text-sand/50 sm:text-sm">
               Jl. Pantai Kertasari
               <br />
               Sumbawa Besar, Nusa Tenggara Barat
@@ -41,51 +82,48 @@ export function FooterSection() {
           </address>
         </FadeIn>
 
-        {/* Links — one line */}
-        <FadeIn delay={0.3}>
-          <div className="mt-10 flex items-center justify-center gap-4 sm:gap-6 flex-wrap">
+        <FadeIn delay={0.25}>
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
             <a
               href="https://instagram.com/bukito.sumbawa"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs tracking-[0.1em] opacity-30 hover:opacity-80 transition-opacity"
+              className="text-xs tracking-[0.1em] text-sand/35 transition-opacity hover:text-sand/85"
             >
               Instagram
             </a>
-            <span className="opacity-10">/</span>
+            <span className="text-sand/12">/</span>
             <a
               href="https://tiktok.com/@bukito.sumbawa"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs tracking-[0.1em] opacity-30 hover:opacity-80 transition-opacity"
+              className="text-xs tracking-[0.1em] text-sand/35 transition-opacity hover:text-sand/85"
             >
               TikTok
             </a>
-            <span className="opacity-10">/</span>
+            <span className="text-sand/12">/</span>
             <a
               href="https://wa.me/6282234606010"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs tracking-[0.1em] opacity-30 hover:opacity-80 transition-opacity"
+              className="text-xs tracking-[0.1em] text-sand/35 transition-opacity hover:text-sand/85"
             >
               WhatsApp
             </a>
           </div>
         </FadeIn>
 
-        {/* Open daily */}
-        <FadeIn delay={0.4}>
-          <p className="mt-14 text-xs tracking-[0.25em] opacity-15">
+        <FadeIn delay={0.35}>
+          <p className="mt-14 text-xs tracking-[0.25em] text-sand/20">
             Open Daily
           </p>
         </FadeIn>
 
-        {/* Whisper text */}
-        <FadeIn delay={0.5}>
-          <p className="mt-20 text-[11px] tracking-[0.2em] opacity-10">
+        <FadeIn delay={0.45}>
+          <p className="mt-20 text-[11px] tracking-[0.2em] text-sand/12">
             #ParadiseWithFangs
           </p>
-          <p className="mt-3 text-[11px] tracking-[0.15em] opacity-[0.07]">
+          <p className="mt-3 text-[11px] tracking-[0.15em] text-sand/10">
             &copy; 2026 Bukito
           </p>
         </FadeIn>

@@ -40,6 +40,9 @@ export const metadata: Metadata = {
       "Restaurant, coffee, and wild nights in Kertasari, Sumbawa.",
     images: ["/photos/bukito-exterior.webp"],
   },
+  alternates: {
+    canonical: "https://bukito.com",
+  },
   robots: {
     index: true,
     follow: true,
@@ -58,7 +61,7 @@ function RestaurantJsonLd() {
     address: {
       "@type": "PostalAddress",
       streetAddress: "Jl. Pantai Kertasari",
-      addressLocality: "Sumbawa Besar",
+      addressLocality: "Sumbawa Barat",
       addressRegion: "Nusa Tenggara Barat",
       addressCountry: "ID",
     },
@@ -69,6 +72,14 @@ function RestaurantJsonLd() {
     },
     url: "https://bukito.com",
     telephone: "+6282234606010",
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        opens: "08:00",
+        closes: "22:00",
+      },
+    ],
     image: "/photos/bukito-exterior.webp",
     sameAs: [
       "https://instagram.com/bukito.sumbawa",
@@ -92,9 +103,17 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full antialiased">
       <head>
+        <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+        <meta name="theme-color" content="#F8F5EA" media="(prefers-color-scheme: light)" />
         <RestaurantJsonLd />
       </head>
       <body className="min-h-full flex flex-col">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[99999] focus:px-4 focus:py-2 focus:bg-sand focus:text-sunrust"
+        >
+          Skip to content
+        </a>
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

@@ -61,6 +61,12 @@ body {
   border-width: 0;
 }
 
+/* ─── Kill Next.js image fade-in on brand dashboard ─── */
+[data-page="brand"] img {
+  animation: none !important;
+  opacity: 1 !important;
+}
+
 /* ─── Selection ─── */
 ::selection {
   background: #6d0000;
@@ -160,4 +166,69 @@ html.lenis body {
 @keyframes revealUp {
   from { clip-path: inset(100% 0 0 0); }
   to { clip-path: inset(0 0 0 0); }
+}
+
+/* ─── Marquee (icon belt) ─── */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+/* ─── Editorial divider ─── */
+.editorial-divider {
+  width: 48px;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.15;
+}
+
+/* ─── Text clip utility ─── */
+.text-clip-hidden {
+  overflow: hidden;
+  display: inline-flex;
+}
+
+/* ─── Hide scrollbar ─── */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── V2: Custom cursor (cat icon) ─── */
+.cursor-cat {
+  position: fixed;
+  pointer-events: none;
+  z-index: 10000;
+  mix-blend-mode: difference;
+}
+
+/* ─── V2: 3D photo tilt ─── */
+.tilt-container {
+  perspective: 800px;
+  transform-style: preserve-3d;
+}
+
+/* ─── Reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─── V2: Scroll progress ─── */
+.scroll-progress {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 1px;
+  background: currentColor;
+  opacity: 0.1;
+  z-index: 9998;
+  transform-origin: top;
 }
