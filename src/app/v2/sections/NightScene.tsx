@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { FadeIn } from "../../components/FadeIn";
-import { TiltPhoto } from "../components/TiltPhoto";
+import { ScatteredPolaroid } from "../components/ScatteredPolaroid";
 import { supabaseGet } from "../../../lib/supabase-fetch";
 import { resolveBrandPhoto } from "../../../lib/brand-media";
 
@@ -109,61 +109,33 @@ const FALLBACK_POSTS: Post[] = [
   },
 ];
 
-/** Floating tilt prints around the Listen column (large screens). */
-const PLAYLIST_TILT_DECOR = [
-  {
-    src: "/photos/bukito-barista.webp",
-    alt: "Barista pulling espresso at Bukito",
-    w: 136,
-    h: 172,
-    className: "absolute right-0 top-2 z-[5] -translate-x-1 rotate-[-5deg]",
-    maxTilt: 4 as const,
-  },
-  {
-    src: "/photos/BUKITO_IG22.webp",
-    alt: "Sumbawa coastline near Kertasari",
-    w: 212,
-    h: 118,
-    className: "absolute right-1 bottom-28 z-[5] translate-x-2 rotate-[2deg]",
-    maxTilt: 4 as const,
-  },
-  {
-    src: "/photos/BUKITO_IG10.webp",
-    alt: "Coffee and light at Bukito",
-    w: 128,
-    h: 168,
-    className: "absolute left-0 bottom-6 z-[5] -translate-x-3 rotate-[4deg]",
-    maxTilt: 5 as const,
-  },
-] as const;
-
 const FALLBACK_PLAYLISTS: Playlist[] = [
   {
     id: "morning",
-    title: "Morning Coffee",
-    desc: "Slow Start, First Light",
+    title: "Bukito Morning",
+    desc: "Slow start, soft light, coffee machine humming",
     tracks: 42,
     duration: "2h 48m",
     color: "#6D0000",
-    url: "https://open.spotify.com",
+    url: "https://open.spotify.com/playlist/3N2LttneuZiP5eGCX8YM9c",
   },
   {
     id: "afternoon",
-    title: "Afternoon Session",
-    desc: "Post-Surf, Cold Brew",
+    title: "Bukito Afternoon",
+    desc: "Post surf, cold brew, island breeze",
     tracks: 38,
     duration: "2h 22m",
     color: "#008134",
-    url: "https://open.spotify.com",
+    url: "https://open.spotify.com/playlist/6pVSHv2WyaQsBh6pqkYH0g",
   },
   {
     id: "sunset",
-    title: "Sunset Hour",
-    desc: "Golden Light, Bintang In Hand",
+    title: "Bukito Sunset",
+    desc: "Golden light aperitivo 'til way after sundown",
     tracks: 35,
     duration: "2h 15m",
     color: "#E67E32",
-    url: "https://open.spotify.com",
+    url: "https://open.spotify.com/playlist/4FTDiiWa8hlxpjNUhb7cGB",
   },
   {
     id: "dinner",
@@ -327,109 +299,86 @@ export function NightScene() {
           </div>
         </div>
 
-        {/* Cat photo — 3D tilt, decorative */}
+        {/* Random decorative polaroid */}
         <FadeIn
           delay={0.25}
           className="hidden lg:block lg:col-span-2 lg:col-start-4 lg:row-start-2 self-end"
         >
-          <TiltPhoto className="w-[160px]">
-            <div className="relative h-[200px] w-[160px] overflow-hidden -rotate-3">
-              <Image
-                src={resolveBrandPhoto("BUKITO_IG3.webp")}
-                alt="Cat at Bukito"
-                fill
-                className="object-cover"
-              />
-            </div>
-          </TiltPhoto>
+          <ScatteredPolaroid seed={7} rotate={-3} opacity={0.2} />
         </FadeIn>
 
         {/* RIGHT: Playlists (2 cols) */}
-        <div className="relative mt-16 lg:col-span-2 lg:mt-0 lg:min-h-[28rem] lg:pt-12">
+        <div className="relative mt-16 lg:col-span-2 lg:mt-0 lg:pt-12">
+          {/* Random translucent polaroid — right edge */}
           <div
-            className="pointer-events-none absolute inset-0 z-[5] hidden overflow-visible lg:block"
+            className="pointer-events-none absolute inset-y-0 right-0 z-0 hidden w-[min(46%,14rem)] lg:block"
             aria-hidden="true"
           >
-            {PLAYLIST_TILT_DECOR.map((d) => (
-              <div key={d.src} className={`pointer-events-auto ${d.className}`}>
-                <TiltPhoto maxTilt={d.maxTilt} className="shadow-[0_14px_48px_rgba(0,0,0,0.5)]">
-                  <div
-                    className="relative overflow-hidden ring-1 ring-sand/15"
-                    style={{ width: d.w, height: d.h }}
-                  >
-                    <Image
-                      src={d.src}
-                      alt={d.alt}
-                      fill
-                      className="object-cover"
-                      sizes="220px"
-                    />
-                  </div>
-                </TiltPhoto>
-              </div>
-            ))}
+            <div className="pointer-events-auto absolute right-0 top-[28%] translate-x-1">
+              <ScatteredPolaroid seed={13} rotate={-4} opacity={0.18} width={200} height={260} maxTilt={4} />
+            </div>
           </div>
 
           <div className="relative z-10">
-          <FadeIn>
-            <p className="text-[11px] tracking-[0.25em] text-sand/25 mb-3">
-              What We Play Here
-            </p>
-            <h2 className="text-[clamp(2rem,5vw,3.5rem)] leading-[0.85] tracking-[-0.05em] mb-10">
-              Listen
-            </h2>
-            <p
-              className="text-xs opacity-25 mb-10 max-w-[30ch]"
-              style={{ fontFamily: "var(--font-kisrre-rounded)" }}
-            >
-              The Sounds We Play At Bukito. From First Coffee To Last Call.
-            </p>
-          </FadeIn>
-
-          {playlists.map((pl, i) => (
-            <FadeIn key={pl.id} delay={0.1 + i * 0.06}>
-              <a
-                href={pl.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block border-t border-sand/8 py-5 cursor-pointer active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sand/30 focus-visible:ring-offset-2 focus-visible:ring-offset-black-magic"
-                onMouseEnter={() => setHoveredPlaylist(pl.id)}
-                onMouseLeave={() => setHoveredPlaylist(null)}
+            <FadeIn>
+              <p className="text-[11px] tracking-[0.25em] text-sand/25 mb-3">
+                What We Play Here
+              </p>
+              <h2 className="text-[clamp(2rem,5vw,3.5rem)] leading-[0.85] tracking-[-0.05em] mb-10">
+                Listen
+              </h2>
+              <p
+                className="text-xs opacity-25 mb-10 max-w-[30ch]"
+                style={{ fontFamily: "var(--font-kisrre-rounded)" }}
               >
-                <div className="flex items-center justify-between">
-                  <div className="min-w-0 flex-1">
-                    <h3 className="text-base tracking-[-0.03em] sm:text-lg group-hover:text-sand transition-colors">
-                      {pl.title}
-                    </h3>
-                    <p
-                      className="text-[11px] opacity-20 mt-0.5"
-                      style={{ fontFamily: "var(--font-kisrre-rounded)" }}
-                    >
-                      {pl.desc}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-4 shrink-0">
-                    <span className="text-[11px] tracking-[0.1em] opacity-15 hidden sm:block">
-                      {pl.tracks} &middot; {pl.duration}
-                    </span>
-                    <svg
-                      width="14"
-                      height="14"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      className="opacity-15 group-hover:opacity-40 group-hover:translate-x-0.5 transition-[opacity,transform]"
-                      aria-hidden="true"
-                    >
-                      <path d="M7 17L17 7M17 7H7M17 7v10" />
-                    </svg>
-                  </div>
-                </div>
-              </a>
+                The Sounds We Play At Bukito. From First Coffee To Last Call.
+              </p>
             </FadeIn>
-          ))}
-          <div className="border-t border-sand/8" />
+
+            {playlists.map((pl, i) => (
+              <FadeIn key={pl.id} delay={0.1 + i * 0.06}>
+                <a
+                  href={pl.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block border-t border-sand/8 py-5 cursor-pointer active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sand/30 focus-visible:ring-offset-2 focus-visible:ring-offset-black-magic"
+                  onMouseEnter={() => setHoveredPlaylist(pl.id)}
+                  onMouseLeave={() => setHoveredPlaylist(null)}
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-base tracking-[-0.03em] sm:text-lg group-hover:text-sand transition-colors">
+                        {pl.title}
+                      </h3>
+                      <p
+                        className="text-[11px] opacity-20 mt-0.5"
+                        style={{ fontFamily: "var(--font-kisrre-rounded)" }}
+                      >
+                        {pl.desc}
+                      </p>
+                    </div>
+                    <div className="flex items-center gap-4 shrink-0">
+                      <span className="text-[11px] tracking-[0.1em] opacity-15 hidden sm:block">
+                        {pl.tracks} &middot; {pl.duration}
+                      </span>
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        className="opacity-15 group-hover:opacity-40 group-hover:translate-x-0.5 transition-[opacity,transform]"
+                        aria-hidden="true"
+                      >
+                        <path d="M7 17L17 7M17 7H7M17 7v10" />
+                      </svg>
+                    </div>
+                  </div>
+                </a>
+              </FadeIn>
+            ))}
+            <div className="border-t border-sand/8" />
           </div>
         </div>
       </div>

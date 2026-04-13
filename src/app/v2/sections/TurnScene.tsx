@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { fetchSiteSetting } from "@/lib/supabase-fetch";
 
 const CDN =
@@ -18,9 +18,75 @@ const FALLBACK_TRANSITION: TransitionData = {
   line2: "The Snake Comes Out",
 };
 
+type CreatureConfig = {
+  icon: string;
+  top: string;
+  left: string;
+  size: number;
+  rotateRange: [number, number];
+  driftRange: [number, number];
+  fadeDelay: number;
+};
+
+const CREATURES: CreatureConfig[] = [
+  { icon: "Bat", top: "18%", left: "12%", size: 36, rotateRange: [-8, 12], driftRange: [30, -30], fadeDelay: 0 },
+  { icon: "Gecko", top: "72%", left: "78%", size: 44, rotateRange: [5, -10], driftRange: [20, -40], fadeDelay: 0.05 },
+  { icon: "Scorpion", top: "26%", left: "82%", size: 30, rotateRange: [-12, 6], driftRange: [40, -20], fadeDelay: 0.1 },
+  { icon: "Spider", top: "68%", left: "18%", size: 26, rotateRange: [10, -15], driftRange: [15, -35], fadeDelay: 0.08 },
+  { icon: "Serpent", top: "48%", left: "88%", size: 32, rotateRange: [-6, 8], driftRange: [25, -25], fadeDelay: 0.12 },
+];
+
+function DriftingCreature({
+  creature,
+  scrollYProgress,
+}: {
+  creature: CreatureConfig;
+  scrollYProgress: MotionValue<number>;
+}) {
+  const opacity = useTransform(
+    scrollYProgress,
+    [0.22 + creature.fadeDelay, 0.38 + creature.fadeDelay],
+    [0, 1],
+  );
+  const y = useTransform(
+    scrollYProgress,
+    [0.2, 0.7],
+    creature.driftRange,
+  );
+  const rotate = useTransform(
+    scrollYProgress,
+    [0.15, 0.75],
+    creature.rotateRange,
+  );
+
+  return (
+    <motion.div
+      style={{
+        opacity,
+        y,
+        rotate,
+        top: creature.top,
+        left: creature.left,
+      }}
+      className="absolute z-20 pointer-events-none"
+    >
+      <Image
+        src={`${CDN}/icons/BUKITO_Icon_${creature.icon}.png`}
+        alt=""
+        width={creature.size}
+        height={creature.size}
+        className="opacity-[0.18]"
+        style={{ filter: "invert(1)" }}
+        aria-hidden="true"
+      />
+    </motion.div>
+  );
+}
+
 export function TurnScene() {
   const ref = useRef<HTMLElement>(null);
-  const [transition, setTransition] = useState<TransitionData>(FALLBACK_TRANSITION);
+  const [transition, setTransition] =
+    useState<TransitionData>(FALLBACK_TRANSITION);
 
   useEffect(() => {
     fetchSiteSetting<TransitionData>("transition").then((val) => {
@@ -33,25 +99,22 @@ export function TurnScene() {
     offset: ["start end", "end start"],
   });
 
-  /* Circle expands from center — reveals a landscape photo instead of black */
   const circleClip = useTransform(
     scrollYProgress,
-    [0.1, 0.65],
-    ["circle(0% at 50% 50%)", "circle(100% at 50% 50%)"]
+    [0.08, 0.68],
+    ["circle(14% at 50% 36%)", "circle(140% at 50% 46%)"],
   );
 
-  const textOpacity = useTransform(scrollYProgress, [0.3, 0.45], [0, 1]);
-  const textY = useTransform(scrollYProgress, [0.3, 0.45], [20, 0]);
+  const textOpacity = useTransform(scrollYProgress, [0.28, 0.44], [0, 1]);
+  const textY = useTransform(scrollYProgress, [0.28, 0.44], [20, 0]);
 
   return (
     <section
       ref={ref}
       className="relative flex h-screen items-center justify-center overflow-hidden"
     >
-      {/* Sand background (static — the "day" side) */}
       <div className="absolute inset-0 bg-sand" />
 
-      {/* Landscape photo expanding from center — the "night" reveal */}
       <motion.div
         style={{ clipPath: circleClip }}
         className="absolute inset-0 z-10"
@@ -60,14 +123,12 @@ export function TurnScene() {
           src="/photos/BUKITO_IG15.webp"
           alt="Sunset at Bukito"
           fill
-          className="object-cover"
+          className="object-cover object-[center_38%]"
           sizes="100vw"
         />
-        {/* Dark overlay so text is readable */}
         <div className="absolute inset-0 bg-black-magic/60" />
       </motion.div>
 
-      {/* Text inside the expanding photo circle */}
       <motion.div
         style={{ opacity: textOpacity, y: textY }}
         className="relative z-20 text-center px-8"
@@ -80,26 +141,12 @@ export function TurnScene() {
         </p>
       </motion.div>
 
-      {/* Decorative nocturnal icons */}
-      {[
-        { icon: "Bat", top: "20%", left: "15%", size: 32 },
-        { icon: "Gecko", top: "70%", left: "75%", size: 40 },
-        { icon: "Scorpion", top: "30%", left: "80%", size: 28 },
-      ].map((item) => (
-        <motion.div
-          key={item.icon}
-          style={{ opacity: textOpacity, top: item.top, left: item.left }}
-          className="absolute z-20 pointer-events-none"
-        >
-          <Image
-            src={`${CDN}/icons/BUKITO_Icon_${item.icon}.png`}
-            alt=""
-            width={item.size}
-            height={item.size}
-            className="opacity-[0.12]"
-            style={{ filter: "invert(1)" }}
-          />
-        </motion.div>
+      {CREATURES.map((creature) => (
+        <DriftingCreature
+          key={creature.icon}
+          creature={creature}
+          scrollYProgress={scrollYProgress}
+        />
       ))}
     </section>
   );

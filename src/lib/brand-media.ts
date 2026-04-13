@@ -18,7 +18,9 @@ const VIDEOS_BASE = `${BRAND_BOOK}/videos`;
 
 /**
  * Resolve a journal / cover reference to a full image URL.
- * Accepts: full https URL, site path starting with `/`, or a filename in brand-book photos.
+ * Accepts: full https URL, site path starting with `/`, or a filename.
+ * Prefers local `/photos/` path since all photos exist locally and only a
+ * subset is mirrored on Supabase Storage.
  */
 export function resolveBrandPhoto(
   ref: string,
@@ -26,7 +28,7 @@ export function resolveBrandPhoto(
 ): string {
   const trimmed = ref?.trim();
   if (!trimmed) {
-    return `${PHOTOS_BASE}/${encodeURIComponent(fallbackFilename)}`;
+    return `/photos/${fallbackFilename}`;
   }
   if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
     return trimmed;
@@ -35,7 +37,7 @@ export function resolveBrandPhoto(
     return trimmed;
   }
   const file = trimmed.replace(/^photos\//, "");
-  return `${PHOTOS_BASE}/${encodeURIComponent(file)}`;
+  return `/photos/${file}`;
 }
 
 /** Resolve a video filename to a full Supabase storage URL. */

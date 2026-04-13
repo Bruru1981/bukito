@@ -1,7 +1,6 @@
 import { GateScene } from "./sections/GateScene";
 import { ApproachScene } from "./sections/ApproachScene";
 import { IdentityScene } from "./sections/IdentityScene";
-import { TableScene } from "./sections/TableScene";
 import { TurnScene } from "./sections/TurnScene";
 import { NightScene } from "./sections/NightScene";
 import { GalleryScene } from "./sections/GalleryScene";
@@ -23,7 +22,7 @@ export default function V2Page() {
       <div id="home"><GateScene /></div>
       <ApproachScene />
       <div id="about"><IdentityScene /></div>
-      <div id="menu"><TableScene /></div>
+      <div id="menu" />
       <TurnScene />
       <div id="journal"><NightScene /></div>
       <div id="gallery"><GalleryScene /></div>
